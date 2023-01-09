@@ -1,0 +1,46 @@
+% This file was created with tikzplotlib v0.10.1.
+\begin{tikzpicture}
+
+\definecolor{darkgray176}{RGB}{176,176,176}
+\definecolor{darkorange25512714}{RGB}{255,127,14}
+\definecolor{steelblue31119180}{RGB}{31,119,180}
+
+\begin{axis}[
+tick align=outside,
+tick pos=left,
+x grid style={darkgray176},
+xlabel={Beta},
+xmin=-0.01895, xmax=0.41995,
+xtick style={color=black},
+y grid style={darkgray176},
+ylabel={Average Weighted VAOI},
+ymin=0.54693925, ymax=6.70244575,
+ytick style={color=black}
+]
+\addplot [semithick, steelblue31119180]
+table {%
+0.001 0.83049
+0.005 0.880975
+0.01 0.94229
+0.05 1.64579
+0.1 2.390895
+0.15 2.907595
+0.2 2.984295
+0.3 2.99906
+0.4 2.9923
+};
+\addplot [semithick, darkorange25512714]
+table {%
+0.001 0.826735
+0.005 0.87878
+0.01 0.95183
+0.05 1.645595
+0.1 2.44297
+0.15 3.218355
+0.2 3.68875
+0.3 5.19463
+0.4 6.42265
+};
+\end{axis}
+
+\end{tikzpicture}

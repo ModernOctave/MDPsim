@@ -19,14 +19,16 @@ class State:
 		return False
 
 class Generator:
-	def __init__(self, states, h_values, h_probs, lambdas, bits=[4, 6], beta=10):
-		self.states = states
+	def __init__(self, max_vaoi, h_values, h_probs, lambdas, bits=[4, 6], beta=0.01, weights=[0.5, 0.5]):
+		self.max_vaoi = max_vaoi
 		self.h_values = h_values
 		self.h_probs = h_probs
 		self.lambdas = lambdas
 		self.bits = bits
 		self.beta = beta
+		self.weights = weights
 
+		self.genStates()
 		self.genActions()
 		self.genTransitions()
 		self.genRewards()
@@ -71,14 +73,14 @@ class Generator:
 			idx2 = np.argmin(state.hs)
 			P1 = (math.e**(self.bits[idx1]*us[idx1]) - 1)/state.hs[idx1]
 			P2 = (math.e**(self.bits[idx2]*us[idx2]) - 1) * (1 / state.hs[idx2] + P1)
-			return P1 + P2
+			return self.weights[idx1]*P1 + self.weights[idx2]*P2
 
 		self.rewards = np.zeros((len(self.actions), len(self.states), len(self.states)))
 		for i, action in enumerate(self.actions):
 			for j, from_state in enumerate(self.states):
 				for k, to_state in enumerate(self.states):
 					# Add VAOI cost
-					self.rewards[i][j][k] -= to_state.deltas[0] + to_state.deltas[1]
+					self.rewards[i][j][k] -= self.weights[0]*to_state.deltas[0] + self.weights[1]*to_state.deltas[1]
 					# Add power cost
 					self.rewards[i][j][k] -= self.beta * powerUsed(from_state, action)
 
@@ -91,14 +93,10 @@ class Generator:
 					self.transitions[i][j][0] += 1-p
 					self.rewards[i][j][0] = -math.inf
 
-
-
-def genStates(max_vaoi, h_values):
-	states = []
-	for delta1 in range(max_vaoi + 1):
-		for delta2 in range(max_vaoi + 1):
-			for h1 in h_values:
-				for h2 in h_values:
-					states.append(State([delta1, delta2], [h1, h2]))
-
-	return states
+	def genStates(self):
+		self.states = []
+		for delta1 in range(self.max_vaoi + 1):
+			for delta2 in range(self.max_vaoi + 1):
+				for h1 in self.h_values:
+					for h2 in self.h_values:
+						self.states.append(State([delta1, delta2], [h1, h2]))

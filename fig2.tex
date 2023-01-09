@@ -1,0 +1,40 @@
+% This file was created with tikzplotlib v0.10.1.
+\begin{tikzpicture}
+
+\definecolor{darkgray176}{RGB}{176,176,176}
+\definecolor{darkorange25512714}{RGB}{255,127,14}
+\definecolor{steelblue31119180}{RGB}{31,119,180}
+
+\begin{axis}[
+tick align=outside,
+tick pos=left,
+x grid style={darkgray176},
+xlabel={VAOI of Stream 1},
+xmin=-0.0511675, xmax=1.0745175,
+xtick style={color=black},
+y grid style={darkgray176},
+ylabel={VAOI of Stream 2},
+ymin=-0.025396, ymax=0.533316,
+ytick style={color=black}
+]
+\addplot [semithick, steelblue31119180]
+table {%
+0 0.50792
+0.301142 0.429272
+0.455668 0.373998
+0.686712 0.249432
+0.811096 0.142962
+1.02335 0
+};
+\addplot [semithick, darkorange25512714]
+table {%
+0 0.49957
+0.299708 0.42652
+0.449736 0.374742
+0.686592 0.248236
+0.797264 0.14265
+0.99817 0
+};
+\end{axis}
+
+\end{tikzpicture}
